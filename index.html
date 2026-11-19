@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en" data-style="volt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jan Porcar</title>
+<meta name="description" content="Jan Porcar, AI and Data Science student from Barcelona in New York. AI agents, ML pipelines and the projects behind them.">
+<meta property="og:title" content="Jan Porcar">
+<meta property="og:description" content="AI and Data Science student. Open to Summer 2027 internships in AI, ML and data science.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/jan-color.webp">
+<meta name="theme-color" content="#170f22">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23170f22'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='800' font-size='28' text-anchor='middle' fill='%23f3eefb'%3EJP%3C/text%3E%3Ccircle cx='50' cy='44' r='4' fill='%23b7f36b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..800&family=Syne:wght@600..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a blueprint sheet. Name lit by a moving lamp, experience slides sideways like a timeline, projects stack like drawings on a desk. */
+:root{
+  --bg:#0f1b2d;        /* blueprint navy */
+  --bg-2:#15243a;      /* raised sheet */
+  --ink:#eaf0f6;       /* drafting white */
+  --muted:#93a3b8;     /* pencil grey */
+  --accent:#ffc261;    /* lamp amber */
+  --line:rgba(234,240,246,.12);
+  --grid:rgba(147,163,184,.07);
+  --display:"Archivo", "Arial Narrow", system-ui, sans-serif;
+  --display-stretch:125%;
+  --display-weight:820;
+  --display-style:normal;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --r-sm:6px; --r-lg:22px;
+  color-scheme:dark;
+}
+:root[data-style="paper"]{
+  --bg:#e8ebee; --bg-2:#f6f7f8; --ink:#12203a; --muted:#5b6678; --accent:#2541ff;
+  --line:rgba(18,32,58,.14); --grid:rgba(18,32,58,.05);
+  --display:"Fraunces", Georgia, serif; --display-stretch:100%; --display-weight:560; --display-style:normal;
+  color-scheme:light;
+}
+:root[data-style="volt"]{
+  --bg:#170f22; --bg-2:#21162f; --ink:#f3eefb; --muted:#a698ba; --accent:#b7f36b;
+  --line:rgba(243,238,251,.12); --grid:rgba(166,152,186,.06);
+  --display:"Syne", system-ui, sans-serif; --display-stretch:100%; --display-weight:800;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--body);
+  font-size:17px; line-height:1.6; overflow-x:hidden;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:48px 48px;
+  transition:background-color .6s ease, color .6s ease;
+}
+a{color:inherit}
+img,canvas,svg{max-width:100%;display:block}
+::selection{background:var(--accent);color:var(--bg)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+.wrap{width:min(1180px, 100% - 40px);margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-stretch:var(--display-stretch);font-weight:var(--display-weight);line-height:.95;text-wrap:balance;letter-spacing:-.01em}
+p{max-width:62ch}
+
+/* ---------- loader ---------- */
+.loader{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center}
+.loader svg{width:120px;height:120px}
+.loader path{fill:none;stroke:var(--ink);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.loader circle{fill:var(--accent)}
+.no-js .loader,.reduced .loader{display:none}
+
+/* ---------- curtain (language switch) ---------- */
+.curtain{position:fixed;inset:0;z-index:90;background:var(--accent);transform:scaleY(0);transform-origin:bottom;pointer-events:none}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:18px 0;transition:background .4s, backdrop-filter .4s}
+.nav.solid{background:color-mix(in srgb, var(--bg) 78%, transparent);backdrop-filter:blur(12px)}
+.nav .wrap{display:flex;align-items:center;gap:28px}
+.mark{font-family:var(--display);font-stretch:var(--display-stretch);font-weight:var(--display-weight);font-size:20px;text-decoration:none;letter-spacing:-.02em}
+.mark b{color:var(--accent)}
+.nav nav{margin-left:auto}
+.menu{display:flex;gap:clamp(20px,3vw,44px);list-style:none}
+.menu a{text-decoration:none;font:500 14px var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);position:relative;padding:6px 0;transition:color .25s}
+.menu a.active{color:var(--ink)}
+.menu a.active::after{transform:scaleX(1)}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.6,0,.2,1)}
+.nav ul a:hover{color:var(--ink)}
+.nav ul a:hover::after{transform:scaleX(1);transform-origin:left}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--ink);font:500 13px var(--mono);text-transform:uppercase;letter-spacing:.14em;padding:8px 14px;border-radius:999px;cursor:pointer}
+.mmenu{position:fixed;inset:0;z-index:45;background:var(--bg);display:flex;align-items:center;padding:0 24px}
+.mmenu[hidden]{display:none}
+.mmenu ul{list-style:none;display:grid;gap:8px}
+.mmenu a{font-family:var(--display);font-weight:var(--display-weight);font-size:clamp(44px,12vw,72px);line-height:1.05;text-decoration:none;display:inline-block}
+.acts{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.card .foot a.more{display:inline-flex;align-items:center;border:0;padding:12px 20px;border-radius:999px;background:var(--accent);color:var(--bg);font-weight:600;font-size:15px;text-decoration:none}
+.card .foot a.more span{display:inline-block}
+/* ---------- project detail ---------- */
+.detail{position:fixed;inset:0;z-index:80;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;
+  background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px);background-size:48px 48px}
+.detail[hidden]{display:none}
+.d-bar{position:sticky;top:0;z-index:2;background:color-mix(in srgb,var(--bg) 82%, transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.d-bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0}
+.d-bar button,.d-bar a{background:none;border:0;color:var(--ink);font:500 13px var(--mono);text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-decoration:none;padding:6px 0}
+.d-bar button:hover,.d-bar a:hover{color:var(--accent)}
+.d-head{padding:72px 0 40px}
+.d-head .kind{color:var(--muted);font-size:15px}
+.d-head h1{font-size:clamp(56px,9.5vw,140px);line-height:.9;margin:18px 0 20px;letter-spacing:-.03em}
+.d-head .sub{font-size:clamp(20px,2.2vw,28px);max-width:30ch;line-height:1.3}
+.d-cover{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);aspect-ratio:21/9;background:var(--bg-2)}
+.d-cover img{width:100%;height:100%;object-fit:cover}
+.d-body{display:grid;grid-template-columns:280px 1fr;gap:clamp(32px,6vw,96px);padding:72px 0 40px}
+.d-facts{position:sticky;top:96px;align-self:start;display:grid;gap:22px}
+.d-facts dt{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+.d-facts dd{font-size:16px}
+.d-facts dd a{text-decoration:none;border-bottom:1px solid var(--accent)}
+.d-facts .tags{margin-top:2px}
+.d-sec{padding-bottom:56px}
+.d-sec h2{font-size:clamp(28px,3vw,40px);margin-bottom:18px}
+.d-sec p{font-size:18px;line-height:1.65;color:color-mix(in srgb,var(--ink) 88%, var(--muted))}
+.d-steps{list-style:none;counter-reset:s;display:grid;gap:0;border-top:1px solid var(--line)}
+.d-steps li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:12px;padding:18px 0;border-bottom:1px solid var(--line);font-size:17px}
+.d-steps li::before{content:counter(s,decimal-leading-zero);font:500 14px var(--mono);color:var(--accent);padding-top:3px}
+.d-list{list-style:none;display:grid;gap:14px}
+.d-list li{padding-left:24px;position:relative;font-size:17px}
+.d-list li::before{content:"";position:absolute;left:0;top:.75em;width:12px;height:2px;background:var(--accent)}
+.d-note{border:1px solid var(--line);border-radius:14px;padding:18px 22px;color:var(--muted);font-size:15px}
+.d-next{display:block;border-top:1px solid var(--line);padding:56px 0 110px;text-decoration:none}
+.d-next small{font:500 13px var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.d-next b{display:block;font-family:var(--display);font-weight:var(--display-weight);font-size:clamp(44px,8vw,110px);line-height:1;margin-top:12px;transition:color .3s, transform .5s cubic-bezier(.2,.7,.2,1)}
+.d-next:hover b{color:var(--accent);transform:translateX(16px)}
+@media (max-width:860px){.d-body{grid-template-columns:1fr}.d-facts{position:static;grid-template-columns:1fr 1fr}.d-cover{aspect-ratio:16/10}}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang button{background:none;border:0;color:var(--muted);font:500 13px var(--body);padding:4px 10px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.clock{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:150px 0 90px;min-height:min(820px, 100svh);display:flex;align-items:center}
+#net{position:absolute;inset:0;width:100%;height:100%;opacity:.55;z-index:1;pointer-events:none}
+.hero .wrap{position:relative;z-index:2;pointer-events:none}
+.hero .wrap > *{pointer-events:auto}
+.portrait{position:absolute;right:max(0px,(100vw - 1320px)/2);bottom:0;width:min(44vw,600px);z-index:0;
+  -webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent 100%);mask-image:linear-gradient(to bottom,#000 70%,transparent 100%)}
+.portrait::before{content:"";position:absolute;inset:12% 6% 0;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 22%,transparent),transparent);filter:blur(30px);z-index:-1}
+.portrait img{width:100%;height:auto;display:block}
+.portrait .p-col{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+.portrait.lit .p-col{opacity:1}
+.status{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 10px;margin-bottom:34px;background:color-mix(in srgb,var(--bg) 70%, transparent)}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 var(--accent);animation:ping 2.4s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 60%,transparent)}80%,100%{box-shadow:0 0 0 10px transparent}}
+.name{font-kerning:none;font-variant-ligatures:none;position:relative;font-size:clamp(64px, 13.5vw, 196px);line-height:.86;letter-spacing:-.035em;margin-left:-.04em}
+.name .row{display:block;overflow:hidden;padding-bottom:.06em}
+.name .ch{display:inline-block;will-change:transform}
+.name-glow{font-kerning:none;font-variant-ligatures:none;position:absolute;inset:0;z-index:1;pointer-events:none;color:transparent;
+  background:radial-gradient(circle var(--lamp,260px) at var(--mx,30%) var(--my,40%), var(--accent), transparent 72%);
+  -webkit-background-clip:text;background-clip:text;opacity:0;transition:opacity .8s}
+.name-glow.on{opacity:1}
+.lede{font-size:clamp(19px, 2vw, 24px);line-height:1.45;margin-top:34px;max-width:34ch}
+.lede em{font-style:normal;color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;border:1px solid var(--line);text-decoration:none;font-weight:500;font-size:16px;transition:background .3s,color .3s,border-color .3s;will-change:transform}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent);border-color:var(--accent)}
+.btn span{display:inline-block;pointer-events:none}
+
+/* ---------- stack strip ---------- */
+.strip{border-block:1px solid var(--line);overflow:hidden;padding:18px 0;white-space:nowrap}
+.strip-track{display:inline-flex;gap:48px;animation:slide 38s linear infinite;padding-right:48px}
+.strip span{font-family:var(--display);font-stretch:var(--display-stretch);font-weight:500;font-size:22px;color:var(--muted)}
+.strip span:nth-child(3n){color:var(--ink)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- section heads ---------- */
+section{position:relative}
+.head{padding:120px 0 48px}
+.head h2{font-size:clamp(46px, 7.4vw, 104px);--p:130;
+  -webkit-mask-image:linear-gradient(100deg,#000 calc(var(--p)*1% - 30%), transparent calc(var(--p)*1% + 5%));
+          mask-image:linear-gradient(100deg,#000 calc(var(--p)*1% - 30%), transparent calc(var(--p)*1% + 5%))}
+.head p{color:var(--muted);margin-top:18px;font-size:18px}
+
+/* ---------- experience (horizontal) ---------- */
+.xp-pin{overflow:hidden}
+.xp-track{display:flex;gap:24px;padding:0 max(20px, (100vw - 1180px)/2) 100px;width:max-content}
+.panel{width:min(440px, 82vw);flex:none;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:34px;display:flex;flex-direction:column;gap:16px;min-height:430px}
+.panel.lead{width:min(560px, 86vw);background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.panel.lead .meta,.panel.lead p{color:color-mix(in srgb,var(--bg) 72%, transparent)}
+.panel h3{font-size:clamp(28px,3vw,38px);line-height:1}
+.panel .meta{font-size:14px;color:var(--muted)}
+.panel p{font-size:16px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.tags li{list-style:none;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:4px 11px;color:var(--muted)}
+.panel.lead .tags li{border-color:color-mix(in srgb,var(--bg) 25%, transparent)}
+.panel .when{font-family:var(--display);font-stretch:var(--display-stretch);font-weight:var(--display-weight);font-size:64px;line-height:1;color:var(--accent);margin-top:auto}
+
+/* ---------- projects (stacked) ---------- */
+.projects{padding-bottom:80px}
+.card{position:sticky;top:96px;margin-bottom:40px;transform-origin:50% 0}
+.card-in{position:relative;will-change:transform;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-lg);display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4vw,56px);padding:clamp(24px,3.4vw,44px);min-height:min(620px, 78svh);box-shadow:0 -24px 60px -30px rgba(0,0,0,.45);overflow:hidden}
+.card-in::after{content:"";position:absolute;inset:0;background:var(--bg);opacity:var(--dim,0);pointer-events:none;border-radius:inherit}
+.card .info{display:flex;flex-direction:column;gap:18px}
+.card .kind{font-size:14px;color:var(--muted)}
+.card h3{font-size:clamp(36px,4.6vw,64px)}
+.card .sub{font-size:19px;color:var(--muted);margin-top:-6px}
+.card ul.points{list-style:none;display:grid;gap:10px}
+.card ul.points li{padding-left:22px;position:relative;font-size:16px}
+.card ul.points li::before{content:"";position:absolute;left:0;top:.72em;width:10px;height:2px;background:var(--accent)}
+.card .foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.card .foot a{font-size:15px;text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px}
+.cover{position:relative;border-radius:14px;overflow:hidden;background:var(--bg);border:1px solid var(--line);aspect-ratio:4/3.4;align-self:center;perspective:900px}
+.cover .tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr)}
+.cover .tile{background-repeat:no-repeat;backface-visibility:hidden;transform-style:preserve-3d}
+.chip{display:inline-block;font-size:13px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 18%, transparent);color:var(--accent)}
+:root[data-style="paper"] .chip{color:var(--accent)}
+
+/* ---------- education ---------- */
+.edu{padding-bottom:40px}
+.edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.school{border-top:1px solid var(--line);padding-top:26px;display:flex;flex-direction:column;gap:12px}
+.school h3{font-size:clamp(28px,3.2vw,44px)}
+.school .meta{color:var(--muted);font-size:15px}
+.school ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.school ul li{font-size:14px;border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+.facts{display:flex;gap:56px;flex-wrap:wrap;margin-top:56px;border-top:1px solid var(--line);padding-top:30px}
+.facts div{display:flex;flex-direction:column}
+.facts b{font-family:var(--display);font-stretch:var(--display-stretch);font-weight:var(--display-weight);font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
+.facts span{color:var(--muted);font-size:15px;margin-top:6px}
+
+/* ---------- contact ---------- */
+.contact{padding:140px 0 60px}
+.contact h2{font-size:clamp(54px, 10vw, 150px);line-height:.9;--p:130;
+  -webkit-mask-image:linear-gradient(100deg,#000 calc(var(--p)*1% - 30%), transparent calc(var(--p)*1% + 5%));
+          mask-image:linear-gradient(100deg,#000 calc(var(--p)*1% - 30%), transparent calc(var(--p)*1% + 5%))}
+.contact p{margin-top:24px;color:var(--muted);font-size:19px}
+.links{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+.mail-text{margin-top:18px;font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums}
+footer{border-top:1px solid var(--line);padding:26px 0 90px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- style switcher (preview only) ---------- */
+.styler{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:4px;padding:5px;border-radius:999px;background:var(--bg-2);border:1px solid var(--line);box-shadow:0 10px 30px -12px rgba(0,0,0,.5)}
+.styler small{font-size:12px;color:var(--muted);padding:0 8px 0 10px}
+.styler button{border:0;background:none;color:var(--muted);font:500 13px var(--body);padding:6px 12px;border-radius:999px;cursor:pointer}
+.styler button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .nav nav{display:none}
+  .lang{margin-left:auto}
+  .burger{display:block}
+  .card-in{grid-template-columns:1fr;min-height:0}
+  .cover{order:-1;aspect-ratio:16/10}
+  .card{top:76px}
+  .edu-grid{grid-template-columns:1fr}
+  .xp-track{flex-direction:column;width:auto;padding:0 20px 80px}
+  .panel,.panel.lead{width:100%;min-height:0}
+  .clock{display:none}
+  .hero{flex-direction:column;padding-bottom:0}
+  .portrait{position:relative;right:auto;width:min(80vw,400px);margin:36px auto 0}
+}
+@media (min-width:861px) and (max-width:1180px){.portrait{width:40vw;opacity:.85}}
+@media (prefers-reduced-motion:reduce){
+  .strip-track,.status i{animation:none}
+  .card{position:relative;top:0}
+}
+</style>
+</head>
+<body class="no-js">
+
+<div class="loader" aria-hidden="true">
+  <svg viewBox="0 0 160 120">
+    <path d="M22 22 H70 M50 22 V78 Q50 98 32 98 Q20 98 16 88"/>
+    <path d="M90 98 V22 H116 Q140 22 140 46 Q140 70 116 70 H90"/>
+    <circle cx="148" cy="98" r="6"/>
+  </svg>
+</div>
+<div class="curtain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="mark" href="#top">jan<b>.</b>porcar</a>
+    <nav aria-label="Sections">
+      <ul class="menu">
+        <li><a href="#work" data-sec="work" data-i18n="nav.work">Work</a></li>
+        <li><a href="#projects" data-sec="projects" data-i18n="nav.projects">Projects</a></li>
+        <li><a href="#education" data-sec="education" data-i18n="nav.edu">Education</a></li>
+        <li><a href="#contact" data-sec="contact" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="es" aria-pressed="false">ES</button>
+    </div>
+    <span class="clock" id="clock">New York</span>
+    <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="mmenu"><span data-i18n="nav.menu">Menu</span></button>
+  </div>
+</header>
+<div class="mmenu" id="mmenu" hidden>
+  <ul>
+    <li><a href="#work" data-i18n="nav.work">Work</a></li>
+    <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+    <li><a href="#education" data-i18n="nav.edu">Education</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+  </ul>
+</div>
+<div class="detail" id="detail" hidden data-lenis-prevent role="dialog" aria-modal="true" aria-labelledby="d-title"></div>
+
+<main id="top">
+  <section class="hero">
+    <figure class="portrait" id="portrait">
+      <img class="p-duo" src="img/jan-duotone.webp" alt="Portrait of Jan Porcar" width="760" height="713">
+      <img class="p-col" src="img/jan-color.webp" alt="" aria-hidden="true" width="760" height="713">
+    </figure>
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="status"><i></i><span data-i18n="hero.status">Open to Summer 2027 internships in AI, ML and data science</span></div>
+      <h1 class="name" aria-label="Jan Porcar">
+        <span class="row" data-split>Jan</span>
+        <span class="row" data-split>Porcar</span>
+        <span class="name-glow" aria-hidden="true"><span class="row">Jan</span><span class="row">Porcar</span></span>
+      </h1>
+      <p class="lede" data-i18n="hero.lede">I build AI systems that end up in production: agents, ML pipelines and the infrastructure under them. <em>AI &amp; Data Science student from Barcelona, this semester in New York.</em></p>
+      <div class="cta">
+        <a class="btn primary magnetic" href="#projects"><span data-i18n="hero.cta1">See my projects</span></a>
+        <a class="btn magnetic" href="#contact"><span data-i18n="hero.cta2">Get in touch</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip" aria-label="Tools I use">
+    <div class="strip-track">
+      <span>Python</span><span>NumPy</span><span>scikit-learn</span><span>C</span><span>Java</span><span>FastAPI</span><span>React</span><span>PostgreSQL</span><span>MongoDB</span><span>Azure</span><span>OpenAI API</span><span>Anthropic API</span><span>Power Automate</span><span>Streamlit</span>
+      <span aria-hidden="true">Python</span><span aria-hidden="true">NumPy</span><span aria-hidden="true">scikit-learn</span><span aria-hidden="true">C</span><span aria-hidden="true">Java</span><span aria-hidden="true">FastAPI</span><span aria-hidden="true">React</span><span aria-hidden="true">PostgreSQL</span><span aria-hidden="true">MongoDB</span><span aria-hidden="true">Azure</span><span aria-hidden="true">OpenAI API</span><span aria-hidden="true">Anthropic API</span><span aria-hidden="true">Power Automate</span><span aria-hidden="true">Streamlit</span>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section id="work">
+    <div class="wrap head">
+      <h2 class="ink" data-i18n="xp.title">Work</h2>
+      <p data-i18n="xp.sub">Running the AI department of a fitness franchise group, on my own.</p>
+    </div>
+    <div class="xp-pin">
+      <div class="xp-track">
+        <article class="panel lead">
+          <span class="meta">Wellness Revolution, DIR Group &middot; Barcelona</span>
+          <h3>AI Project Manager</h3>
+          <p data-i18n="xp.lead">I lead AI for a franchisor with four brands (YogaOne, BDiR, Glow Pilates and OneDir). I decide what to automate, build it, and get it adopted: marketing automation, AI tools and internal systems.</p>
+          <ul class="tags"><li>Strategy</li><li>Automation</li><li>Internal tools</li></ul>
+        </article>
+        <article class="panel">
+          <span class="meta" data-i18n="xp.cs.meta">SaaS platform, 2026</span>
+          <h3>Creative Studio</h3>
+          <p data-i18n="xp.cs">A Python and FastAPI app that generates on-brand marketing images with the OpenAI and Anthropic APIs. Designed it multi-tenant for about 80 franchise centres, with each centre's API keys kept in Azure Key Vault, and shipped it on Azure App Service.</p>
+          <ul class="tags"><li>FastAPI</li><li>Azure SQL</li><li>Key Vault</li><li>JWT</li></ul>
+        </article>
+        <article class="panel">
+          <span class="meta" data-i18n="xp.zoho.meta">Automation, 2026</span>
+          <h3 data-i18n="xp.zoho.t">Lead pipeline</h3>
+          <p data-i18n="xp.zoho">Leads from Meta Ads land in Zoho CRM automatically, tagged by brand and routed to the right area manager. No more spreadsheets passed around by hand.</p>
+          <ul class="tags"><li>Meta Ads</li><li>Zoho CRM</li><li>Webhooks</li></ul>
+        </article>
+        <article class="panel">
+          <span class="meta" data-i18n="xp.agent.meta">AI agent, 2026</span>
+          <h3 data-i18n="xp.agent.t">Content agent</h3>
+          <p data-i18n="xp.agent">A Power Automate agent that drafts social posts and image prompts for each brand from a shared knowledge base, so centres get consistent content without a designer in the loop.</p>
+          <ul class="tags"><li>Power Automate</li><li>LLMs</li><li>Prompting</li></ul>
+        </article>
+        <article class="panel">
+          <span class="meta" data-i18n="xp.ml.meta">Machine learning, 2026</span>
+          <h3 data-i18n="xp.ml.t">Campaign scoring</h3>
+          <p data-i18n="xp.ml">A machine learning tool that tells marketing whether a Meta campaign and the leads it brings in are actually working, plus automated monthly reports for other departments.</p>
+          <ul class="tags"><li>scikit-learn</li><li>Python</li><li>Reporting</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="projects">
+    <div class="wrap head">
+      <h2 class="ink" data-i18n="pr.title">Projects</h2>
+      <p data-i18n="pr.sub">University projects I'm proud of. Each one taught me something I now use at work.</p>
+    </div>
+    <div class="wrap" id="stack">
+
+      <article class="card" data-cover="verity">
+        <div class="card-in">
+          <div class="info">
+            <span class="kind" data-i18n="p1.kind">Machine Learning, La Salle, 2025/26</span>
+            <h3>Verity</h3>
+            <p class="sub" data-i18n="p1.sub">Multimodal deception detection</p>
+            <ul class="points">
+              <li data-i18n="p1.a">Combines language cues (hedges, denials, distancing) with simulated physiology: heart rate, HRV, blink rate and facial action units.</li>
+              <li data-i18n="p1.b">Compares Random Forest, Logistic Regression and SVM, then adds a rule-based layer so every verdict can be explained.</li>
+              <li data-i18n="p1.c">Runs live in a React cockpit built for interrogation sessions.</li>
+            </ul>
+            <div class="foot">
+              <ul class="tags"><li>Python</li><li>scikit-learn</li><li>React</li></ul>
+              <span class="acts"><a class="gh" href="https://github.com/janporcar/verity" target="_blank" rel="noopener" data-i18n="code">Code on GitHub</a><a class="more magnetic" href="#verity"><span data-i18n="more">Know more</span></a></span>
+            </div>
+          </div>
+          <div class="cover" role="img" aria-label="Four signal traces feeding a verdict gauge"></div>
+        </div>
+      </article>
+
+      <article class="card" data-cover="wearwise">
+        <div class="card-in">
+          <div class="info">
+            <span class="kind" data-i18n="p2.kind">Knowledge-Based Systems, La Salle, 2025/26</span>
+            <h3>WearWise</h3>
+            <p class="sub" data-i18n="p2.sub">An outfit recommender that explains itself</p>
+            <ul class="points">
+              <li data-i18n="p2.a">GPT-4o reads photos of your clothes and turns them into structured attributes that fit a fixed ontology.</li>
+              <li data-i18n="p2.b">A forward-chaining engine in Python filters outfits by hard rules, then scores them on occasion, formality and colour harmony.</li>
+              <li data-i18n="p2.c">MongoDB Atlas, a Streamlit front end, and a paper written in IEEE format.</li>
+            </ul>
+            <div class="foot">
+              <ul class="tags"><li>GPT-4o</li><li>Python</li><li>MongoDB</li></ul>
+              <span class="acts"><a class="gh" href="https://github.com/janporcar/wearwise" target="_blank" rel="noopener" data-i18n="code">Code on GitHub</a><a class="more magnetic" href="#wearwise"><span data-i18n="more">Know more</span></a></span>
+            </div>
+          </div>
+          <div class="cover" role="img" aria-label="Facts flowing through rules into an outfit"></div>
+        </div>
+      </article>
+
+      <article class="card" data-cover="citadel">
+        <div class="card-in">
+          <div class="info">
+            <span class="kind" data-i18n="p3.kind">Operating Systems, La Salle, 2025/26</span>
+            <h3>The Citadel System</h3>
+            <p class="sub" data-i18n="p3.sub">A decentralised network of processes, in C</p>
+            <ul class="points">
+              <li data-i18n="p3.a">Each realm runs a Maester process that forms alliances and trades with the others over TCP.</li>
+              <li data-i18n="p3.b">A custom protocol with fixed 320-byte frames, routed through intermediate hops when there's no direct link.</li>
+              <li data-i18n="p3.c">Missions run in child Envoy processes over pipes, so a node keeps routing while several run at once.</li>
+            </ul>
+            <div class="foot">
+              <ul class="tags"><li>C</li><li>Sockets</li><li>fork / pipes</li></ul>
+              <span class="acts"><a class="gh" href="https://github.com/janporcar/the-citadel-system" target="_blank" rel="noopener" data-i18n="code">Code on GitHub</a><a class="more magnetic" href="#citadel"><span data-i18n="more">Know more</span></a></span>
+            </div>
+          </div>
+          <div class="cover" role="img" aria-label="Network of nodes with a routed message"></div>
+        </div>
+      </article>
+
+      <article class="card" data-cover="nudeeye">
+        <div class="card-in">
+          <div class="info">
+            <span class="kind" data-i18n="p4.kind">Object-Oriented Design, La Salle, 2025/26</span>
+            <h3>Nude Eye</h3>
+            <p class="sub" data-i18n="p4.sub">Management software for an optical shop, in Java</p>
+            <ul class="points">
+              <li data-i18n="p4.a">Inheritance-based clients and products, each with its own pricing and VAT rules behind a single hook method.</li>
+              <li data-i18n="p4.b">The DAO layer swaps between local JSON/CSV files and a remote REST API, chosen when the app starts.</li>
+              <li data-i18n="p4.c">Shipping fees calculated from real distances through a geolocation API.</li>
+            </ul>
+            <div class="foot">
+              <ul class="tags"><li>Java</li><li>DAO</li><li>REST</li></ul>
+              <span class="acts"><a class="gh" href="https://github.com/janporcar/nude-eye" target="_blank" rel="noopener" data-i18n="code">Code on GitHub</a><a class="more magnetic" href="#nudeeye"><span data-i18n="more">Know more</span></a></span>
+            </div>
+          </div>
+          <div class="cover" role="img" aria-label="Class hierarchy diagram"></div>
+        </div>
+      </article>
+
+      <article class="card" data-cover="mnist">
+        <div class="card-in">
+          <div class="info">
+            <span class="kind" data-i18n="p5.kind">AI Applications, Manhattan University, Fall 2026</span>
+            <h3 data-i18n="p5.t">Neural net from scratch</h3>
+            <p class="sub" data-i18n="p5.sub">Handwritten digits with nothing but NumPy</p>
+            <ul class="points">
+              <li data-i18n="p5.a">Forward pass, backpropagation and training loop written by hand, no deep learning framework.</li>
+              <li data-i18n="p5.b">A live demo where you draw a digit and watch the network's confidence update.</li>
+              <li data-i18n="p5.c">Digging into why MNIST struggles with the European way of writing 1 and 7.</li>
+            </ul>
+            <div class="foot">
+              <span class="chip" data-i18n="p5.chip">In progress, demo in December</span>
+              <span class="acts"><a class="gh" href="https://github.com/janporcar" target="_blank" rel="noopener" data-i18n="ghp">My GitHub</a><a class="more magnetic" href="#mnist"><span data-i18n="more">Know more</span></a></span>
+            </div>
+          </div>
+          <div class="cover" role="img" aria-label="A handwritten 7 on a 28 by 28 grid with class probabilities"></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="edu">
+    <div class="wrap head">
+      <h2 class="ink" data-i18n="ed.title">Education</h2>
+    </div>
+    <div class="wrap">
+      <div class="edu-grid">
+        <div class="school reveal">
+          <span class="meta" data-i18n="ed.ls.meta">Barcelona, third year</span>
+          <h3>La Salle, Universitat Ramon Llull</h3>
+          <p data-i18n="ed.ls">BSc in Artificial Intelligence and Data Science, on the mathematical methods track.</p>
+          <ul><li>Machine Learning</li><li>Operating Systems</li><li>Databases</li><li>OOP</li><li>Knowledge-Based Systems</li></ul>
+        </div>
+        <div class="school reveal">
+          <span class="meta" data-i18n="ed.mu.meta">New York, exchange semester, Fall 2026</span>
+          <h3>Manhattan University</h3>
+          <p data-i18n="ed.mu">Electrical and Computer Engineering courses as an exchange student.</p>
+          <ul><li>Data &amp; Application Security</li><li>AI Applications in ECE</li></ul>
+        </div>
+      </div>
+      <div class="facts reveal">
+        <div><b>3.5</b><span data-i18n="ed.gpa">GPA out of 4.0</span></div>
+        <div><b data-count="5">5</b><span data-i18n="ed.proj">projects shipped in 2025/26</span></div>
+        <div><b>2</b><span data-i18n="ed.lang">countries, one semester apart</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2 class="ink" data-i18n="ct.title">Let's build something.</h2>
+      <p data-i18n="ct.sub">I'm looking for a Summer 2027 internship in AI, ML or data science in the US. The fastest way to reach me is email.</p>
+      <div class="links">
+        <a class="btn primary magnetic" href="mailto:janporcar30@gmail.com"><span data-i18n="ct.mail">Email me</span></a>
+        <a class="btn magnetic" href="https://github.com/janporcar" target="_blank" rel="noopener"><span>GitHub</span></a>
+        <a class="btn magnetic" href="https://www.linkedin.com/in/jan-porcar-07998b418" target="_blank" rel="noopener"><span>LinkedIn</span></a>
+      </div>
+      <p class="mail-text">janporcar30@gmail.com</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Jan Porcar</span>
+    <span data-i18n="ft">Designed and built between Barcelona and New York</span>
+  </div>
+</footer>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+const root=document.documentElement, body=document.body;
+body.classList.remove('no-js');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduced) body.classList.add('reduced');
+const hasGsap=typeof gsap!=='undefined';
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const css=n=>getComputedStyle(root).getPropertyValue(n).trim();
+
+/* ---------- i18n ---------- */
+const ES={
+ "nav.menu":"Menú","more":"Saber más",
+ "nav.work":"Experiencia","nav.projects":"Proyectos","nav.edu":"Formación","nav.contact":"Contacto",
+ "hero.status":"Busco prácticas de verano 2027 en IA, ML y data science",
+ "hero.lede":"Construyo sistemas de IA que acaban en producción: agentes, pipelines de ML y la infraestructura que hay debajo. <em>Estudiante de IA y Data Science de Barcelona, este semestre en Nueva York.</em>",
+ "hero.cta1":"Ver mis proyectos","hero.cta2":"Hablemos",
+ "xp.title":"Experiencia","xp.sub":"Llevo yo solo el departamento de IA de un grupo de franquicias de fitness.",
+ "xp.lead":"Lidero la IA de un franquiciador con cuatro marcas (YogaOne, BDiR, Glow Pilates y OneDir). Decido qué automatizar, lo construyo y consigo que se use: automatización de marketing, herramientas de IA y sistemas internos.",
+ "xp.cs.meta":"Plataforma SaaS, 2026",
+ "xp.cs":"Una app en Python y FastAPI que genera imágenes de marketing fieles a cada marca con las APIs de OpenAI y Anthropic. La diseñé multi-tenant para unos 80 centros, con las claves de cada centro guardadas en Azure Key Vault, y la desplegué en Azure App Service.",
+ "xp.zoho.meta":"Automatización, 2026","xp.zoho.t":"Pipeline de leads",
+ "xp.zoho":"Los leads de Meta Ads entran solos en Zoho CRM, etiquetados por marca y asignados al area manager correcto. Se acabaron los Excel pasados a mano.",
+ "xp.agent.meta":"Agente de IA, 2026","xp.agent.t":"Agente de contenido",
+ "xp.agent":"Un agente en Power Automate que redacta posts y prompts de imagen para cada marca a partir de una base de conocimiento común, para que los centros tengan contenido coherente sin pasar por diseño.",
+ "xp.ml.meta":"Machine learning, 2026","xp.ml.t":"Scoring de campañas",
+ "xp.ml":"Una herramienta de machine learning que le dice a marketing si una campaña de Meta y sus leads funcionan de verdad, más informes mensuales automáticos para otros departamentos.",
+ "pr.title":"Proyectos","pr.sub":"Proyectos de la universidad de los que estoy orgulloso. Cada uno me enseñó algo que ahora uso en el trabajo.",
+ "code":"Código en GitHub","ghp":"Mi GitHub",
+ "p1.kind":"Machine Learning, La Salle, 2025/26","p1.sub":"Detección multimodal de engaño",
+ "p1.a":"Combina señales del lenguaje (evasivas, negaciones, distanciamiento) con fisiología simulada: pulso, HRV, parpadeo y unidades de acción facial.",
+ "p1.b":"Compara Random Forest, Regresión Logística y SVM, y añade una capa de reglas para que cada veredicto se pueda explicar.",
+ "p1.c":"Funciona en directo en un cockpit en React pensado para sesiones de interrogatorio.",
+ "p2.kind":"Sistemas Basados en Conocimiento, La Salle, 2025/26","p2.sub":"Un recomendador de outfits que se explica",
+ "p2.a":"GPT-4o lee fotos de tu ropa y las convierte en atributos estructurados que encajan en una ontología fija.",
+ "p2.b":"Un motor de encadenamiento hacia delante en Python filtra outfits con reglas estrictas y luego los puntúa por ocasión, formalidad y armonía de color.",
+ "p2.c":"MongoDB Atlas, interfaz en Streamlit y un paper en formato IEEE.",
+ "p3.kind":"Sistemas Operativos, La Salle, 2025/26","p3.sub":"Una red descentralizada de procesos, en C",
+ "p3.a":"Cada reino ejecuta un proceso Maester que forma alianzas y comercia con los demás por TCP.",
+ "p3.b":"Un protocolo propio con tramas fijas de 320 bytes, enrutadas por saltos intermedios cuando no hay conexión directa.",
+ "p3.c":"Las misiones corren en procesos hijo Envoy comunicados por pipes, así el nodo sigue enrutando mientras varias se ejecutan a la vez.",
+ "p4.kind":"Diseño Orientado a Objetos, La Salle, 2025/26","p4.sub":"Software de gestión para una óptica, en Java",
+ "p4.a":"Clientes y productos con herencia, cada uno con sus reglas de precio e IVA detrás de un único método gancho.",
+ "p4.b":"La capa DAO alterna entre ficheros JSON/CSV locales y una API REST remota, elegida al arrancar.",
+ "p4.c":"Gastos de envío calculados con distancias reales mediante una API de geolocalización.",
+ "p5.kind":"AI Applications, Manhattan University, otoño 2026","p5.t":"Red neuronal desde cero","p5.sub":"Dígitos escritos a mano solo con NumPy",
+ "p5.a":"Forward pass, backpropagation y bucle de entrenamiento escritos a mano, sin frameworks de deep learning.",
+ "p5.b":"Una demo en directo: dibujas un dígito y ves cómo cambia la confianza de la red.",
+ "p5.c":"Investigando por qué MNIST falla con el 1 y el 7 escritos a la europea.",
+ "p5.chip":"En curso, demo en diciembre",
+ "ed.title":"Formación","ed.ls.meta":"Barcelona, tercer curso","ed.ls":"Grado en Inteligencia Artificial y Data Science, itinerario de métodos matemáticos.",
+ "ed.mu.meta":"Nueva York, semestre de intercambio, otoño 2026","ed.mu":"Asignaturas de Ingeniería Eléctrica y de Computadores como estudiante de intercambio.",
+ "ed.gpa":"GPA sobre 4.0","ed.proj":"proyectos entregados en 2025/26","ed.lang":"países, a un semestre de distancia",
+ "ct.title":"Construyamos algo.","ct.sub":"Busco prácticas de verano 2027 en IA, ML o data science en EE. UU. Lo más rápido para contactarme es el email.",
+ "ct.mail":"Escríbeme","ft":"Diseñada y construida entre Barcelona y Nueva York","styler":"Estilo"
+};
+const i18nEls=[...document.querySelectorAll('[data-i18n]')];
+i18nEls.forEach(el=>el.dataset.en=el.innerHTML);
+let lang='en';
+function applyLang(l){
+  lang=l; root.lang=l;
+  i18nEls.forEach(el=>{const k=el.dataset.i18n; el.innerHTML = l==='es' && ES[k] ? ES[k] : el.dataset.en;});
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.lang===l));
+  store.set('jp-lang',l);
+  if(hasGsap) ScrollTrigger.refresh();
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.lang===lang) return;
+  const cur=document.querySelector('.curtain');
+  if(!hasGsap||reduced){applyLang(b.dataset.lang);return;}
+  gsap.timeline()
+    .set(cur,{transformOrigin:'bottom'})
+    .to(cur,{scaleY:1,duration:.5,ease:'power4.inOut'})
+    .add(()=>applyLang(b.dataset.lang))
+    .set(cur,{transformOrigin:'top'})
+    .to(cur,{scaleY:0,duration:.55,ease:'power4.inOut',delay:.08});
+}));
+const savedLang=store.get('jp-lang'); if(savedLang==='es') applyLang('es');
+
+/* ---------- clock ---------- */
+const clock=document.getElementById('clock');
+function tick(){try{clock.textContent='New York '+new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date())}catch(e){}}
+tick(); setInterval(tick,15000);
+
+/* ---------- nav ---------- */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>40),{passive:true});
+
+/* ---------- split name ---------- */
+document.querySelectorAll('[data-split]').forEach(r=>{r.innerHTML=[...r.textContent].map(c=>`<span class="ch">${c}</span>`).join('')});
+
+/* ---------- lamp on name ---------- */
+const name=document.querySelector('.name'), glow=document.querySelector('.name-glow');
+let lx=0.3,ly=0.4,tx=lx,ty=ly;
+name.addEventListener('pointermove',e=>{const r=name.getBoundingClientRect();tx=(e.clientX-r.left)/r.width;ty=(e.clientY-r.top)/r.height});
+document.querySelector('.hero').addEventListener('pointermove',e=>{const r=name.getBoundingClientRect();tx=(e.clientX-r.left)/r.width;ty=(e.clientY-r.top)/r.height});
+(function lamp(){lx+=(tx-lx)*.08;ly+=(ty-ly)*.08;glow.style.setProperty('--mx',(lx*100)+'%');glow.style.setProperty('--my',(ly*100)+'%');if(!reduced)requestAnimationFrame(lamp)})();
+
+/* ---------- portrait: colour on hover ---------- */
+const portrait=document.getElementById('portrait');
+document.querySelector('.hero').addEventListener('pointermove',e=>{const r=portrait.getBoundingClientRect();portrait.classList.toggle('lit',e.clientX>r.left+r.width*.15&&e.clientX<r.right-r.width*.15&&e.clientY>r.top&&e.clientY<r.bottom)});
+document.querySelector('.hero').addEventListener('pointerleave',()=>portrait.classList.remove('lit'));
+portrait.addEventListener('click',()=>portrait.classList.toggle('lit'));
+/* ---------- hero network ---------- */
+const cv=document.getElementById('net'), ctx=cv.getContext('2d');
+let W,H,nodes=[],mouse={x:-999,y:-999},pulses=[];
+function size(){const d=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);
+  const n=Math.round(Math.min(70,W*H/16000));nodes=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25}))}
+size(); addEventListener('resize',size);
+cv.parentElement.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});
+cv.parentElement.addEventListener('pointerleave',()=>{mouse.x=-999});
+function frame(){
+  ctx.clearRect(0,0,W,H);
+  const ink=css('--muted'), acc=css('--accent');
+  for(const p of nodes){
+    if(!reduced){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      const dx=mouse.x-p.x,dy=mouse.y-p.y,d=Math.hypot(dx,dy);if(d<160){p.x+=dx*.004;p.y+=dy*.004}}
+  }
+  ctx.lineWidth=1;
+  for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
+    const a=nodes[i],b=nodes[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(d<130){ctx.globalAlpha=(1-d/130)*.5;ctx.strokeStyle=ink;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+      if(!reduced&&Math.random()<.0009&&pulses.length<8)pulses.push({a,b,t:0})}
+  }
+  ctx.globalAlpha=1;
+  for(const p of nodes){const near=Math.hypot(mouse.x-p.x,mouse.y-p.y)<160;ctx.fillStyle=near?acc:ink;ctx.beginPath();ctx.arc(p.x,p.y,near?2.6:1.6,0,7);ctx.fill()}
+  pulses=pulses.filter(q=>q.t<=1);
+  for(const q of pulses){q.t+=.02;const x=q.a.x+(q.b.x-q.a.x)*q.t,y=q.a.y+(q.b.y-q.a.y)*q.t;ctx.fillStyle=acc;ctx.beginPath();ctx.arc(x,y,2.4,0,7);ctx.fill()}
+  if(!reduced)requestAnimationFrame(frame);
+}
+frame();
+
+/* ---------- covers (drawn per theme, assembled from 12 tiles) ---------- */
+function drawCover(kind,w,h){
+  const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');
+  const bg=css('--bg'),ink=css('--ink'),mut=css('--muted'),acc=css('--accent'),line=css('--line');
+  g.fillStyle=bg;g.fillRect(0,0,w,h);
+  g.strokeStyle=line;g.lineWidth=1;for(let x=0;x<w;x+=32){g.beginPath();g.moveTo(x,0);g.lineTo(x,h);g.stroke()}for(let y=0;y<h;y+=32){g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke()}
+  g.font='500 15px "JetBrains Mono", monospace';g.textBaseline='middle';
+  const label=(t,x,y,col)=>{g.fillStyle=col||mut;g.fillText(t,x,y)};
+  if(kind==='verity'){
+    const names=['lexical','heart rate','HRV','blink'];
+    names.forEach((n,i)=>{const y=110+i*95;label(n,40,y-34);g.strokeStyle=i===0?acc:ink;g.lineWidth=2.4;g.beginPath();
+      for(let x=40;x<w-200;x+=4){const t=x/40;const v=i===0?Math.sin(t*1.3)*14+Math.sin(t*3.1)*6:i===1?(x%90<8?-30:Math.sin(t*2)*4):i===2?Math.sin(t*.6)*18:(x%140<6?-26:0);x===40?g.moveTo(x,y+v):g.lineTo(x,y+v)}g.stroke()});
+    const cx=w-110,cy=h/2;g.lineWidth=14;g.strokeStyle=line;g.beginPath();g.arc(cx,cy,64,Math.PI*.75,Math.PI*2.25);g.stroke();
+    g.strokeStyle=acc;g.beginPath();g.arc(cx,cy,64,Math.PI*.75,Math.PI*(.75+1.5*.82));g.stroke();
+    g.fillStyle=ink;g.font='700 34px "Archivo", sans-serif';g.textAlign='center';g.fillText('0.82',cx,cy);g.font='500 13px "JetBrains Mono", monospace';g.fillStyle=mut;g.fillText('truthful',cx,cy+30);g.textAlign='left';
+  }
+  if(kind==='wearwise'){
+    const col=[[60,'facts',['cotton shirt','navy','rain: 70%','office']],[w/2-70,'rules',['R3 formality','R7 weather','R12 palette']],[w-210,'outfit',['shirt + chinos','trench coat','loafers']]];
+    const pos=[];
+    col.forEach(([x,title,items],ci)=>{label(title,x,60,acc);items.forEach((t,i)=>{const y=110+i*(ci===1?110:85);g.strokeStyle=ci===2?acc:ink;g.lineWidth=1.6;g.strokeRect(x,y-22,150,44);label(t,x+12,y,ink);pos.push({ci,x,y})})});
+    g.strokeStyle=mut;g.lineWidth=1.2;
+    pos.filter(p=>p.ci===0).forEach((a,i)=>{const b=pos.filter(p=>p.ci===1)[i%3];g.beginPath();g.moveTo(a.x+150,a.y);g.bezierCurveTo(a.x+200,a.y,b.x-50,b.y,b.x,b.y);g.stroke()});
+    g.strokeStyle=acc;pos.filter(p=>p.ci===1).forEach((a,i)=>{const b=pos.filter(p=>p.ci===2)[i];g.beginPath();g.moveTo(a.x+150,a.y);g.bezierCurveTo(a.x+200,a.y,b.x-50,b.y,b.x,b.y);g.stroke()});
+  }
+  if(kind==='citadel'){
+    const pts=[[120,120,'Stark'],[330,90,'Arryn'],[540,150,'Tully'],[200,300,'Lannister'],[430,290,'Tyrell'],[640,330,'Martell'],[300,450,'Baratheon']].map(p=>[p[0]*w/760,p[1]*h/640*1.05,p[2]]);
+    const edges=[[0,1],[1,2],[0,3],[3,4],[4,2],[4,5],[3,6],[6,4]];
+    g.lineWidth=1.4;g.strokeStyle=mut;edges.forEach(([a,b])=>{g.beginPath();g.moveTo(pts[a][0],pts[a][1]);g.lineTo(pts[b][0],pts[b][1]);g.stroke()});
+    g.strokeStyle=acc;g.lineWidth=3;g.setLineDash([10,7]);g.beginPath();[0,3,4,5].forEach((k,i)=>i?g.lineTo(pts[k][0],pts[k][1]):g.moveTo(pts[k][0],pts[k][1]));g.stroke();g.setLineDash([]);
+    pts.forEach(([x,y,n],i)=>{g.fillStyle=[0,5].includes(i)?acc:bg;g.strokeStyle=[0,5].includes(i)?acc:ink;g.lineWidth=2;g.beginPath();g.arc(x,y,13,0,7);g.fill();g.stroke();label(n,x+20,y-16,ink)});
+    const by=h-60;label('frame: 320 bytes',40,by-28);const segs=[['type',1],['origin',2],['dest',2],['len',1],['data',7],['crc',1]];let x=40;const unit=(w-80)/14;
+    segs.forEach(([s,n],i)=>{g.fillStyle=i===4?acc:'transparent';g.strokeStyle=ink;g.lineWidth=1.4;if(i===4){g.globalAlpha=.25;g.fillRect(x,by,n*unit,30);g.globalAlpha=1}g.strokeRect(x,by,n*unit,30);label(s,x+8,by+15,ink);x+=n*unit});
+  }
+  if(kind==='nudeeye'){
+    const bw=w*.13, bh=44;
+    const box=(x,y,t,hl)=>{g.fillStyle=bg;g.fillRect(x-bw/2,y-bh/2,bw,bh);g.strokeStyle=hl?acc:ink;g.lineWidth=hl?2.4:1.5;g.strokeRect(x-bw/2,y-bh/2,bw,bh);g.textAlign='center';label(t,x,y,hl?acc:ink);g.textAlign='left'};
+    const link=(x1,y1,x2,y2)=>{const mid=(y1+y2)/2;g.strokeStyle=mut;g.lineWidth=1.3;g.beginPath();g.moveTo(x2,y2+bh/2+12);g.lineTo(x2,mid);g.lineTo(x1,mid);g.lineTo(x1,y1-bh/2);g.stroke();g.fillStyle=mut;g.beginPath();g.moveTo(x2,y2+bh/2);g.lineTo(x2-7,y2+bh/2+12);g.lineTo(x2+7,y2+bh/2+12);g.fill()};
+    const sp=w*.15, L=w*.25, R=w*.72, y0=h*.2, y1=h*.45, y2=h*.7;
+    [[L-sp,'InPerson'],[L,'Online'],[L+sp,'Corporate']].forEach(([x])=>link(x,y1,L,y0));
+    box(L,y0,'Client',true);box(L-sp,y1,'InPerson');box(L,y1,'Online');box(L+sp,y1,'Corporate');
+    const P=R-sp*.6, S=R+sp*.6;
+    link(P,y1,R,y0);link(S,y1,R,y0);link(P-sp*.55,y2,P,y1);link(P+sp*.55,y2,P,y1);
+    box(R,y0,'Product',true);box(P,y1,'Physical');box(S,y1,'Service');box(P-sp*.55,y2,'Glasses');box(P+sp*.55,y2,'Lens');
+    label('appliesVAT()',40,h-44,acc);label('ClientDAO -> JSON | REST',w*.52,h-44);
+  }
+  if(kind==='mnist'){
+    const n=28,s=Math.min((h-80)/n,(w*.55)/n),ox=40,oy=(h-n*s)/2;
+    const seven=(i,j)=>{const x=j/n,y=i/n;const top=y>.2&&y<.29&&x>.25&&x<.78;const diag=Math.abs((x-.78)+(y-.25)*.42)<.05&&y>.22&&y<.85;const bar=y>.5&&y<.56&&x>.42&&x<.7;return top||diag||bar};
+    for(let i=0;i<n;i++)for(let j=0;j<n;j++){const on=seven(i,j);g.fillStyle=on?ink:line;g.globalAlpha=on?1:.6;g.fillRect(ox+j*s+.5,oy+i*s+.5,s-1,s-1)}g.globalAlpha=1;
+    const px=ox+n*s+50,bw=w-px-60;const probs=[.01,.62,.0,.02,.0,.01,.0,.31,.02,.01];
+    label('p(digit)',px,oy-6);
+    probs.forEach((p,d)=>{const y=oy+30+d*((n*s-40)/10);label(String(d),px,y,ink);g.fillStyle=line;g.fillRect(px+26,y-7,bw,14);g.fillStyle=d===1||d===7?acc:mut;g.fillRect(px+26,y-7,Math.max(2,bw*p),14)});
+    label('1 or 7?',px,oy+n*s+6,acc);
+  }
+  return c.toDataURL();
+}
+const covers=[...document.querySelectorAll('.card')].map(card=>{
+  const el=card.querySelector('.cover');const t=document.createElement('div');t.className='tiles';
+  for(let k=0;k<12;k++){const d=document.createElement('div');d.className='tile';d.style.backgroundPosition=`${(k%4)/3*100}% ${Math.floor(k/4)/2*100}%`;d.style.backgroundSize='400% 300%';t.appendChild(d)}
+  el.appendChild(t);return {card,el,kind:card.dataset.cover,tiles:[...t.children]};
+});
+function paintCovers(){covers.forEach(c=>{const r=c.el.getBoundingClientRect();const w=Math.max(600,Math.round(r.width*1.5)),h=Math.round(w*(r.height/r.width||.85));const url=drawCover(c.kind,w,h);c.tiles.forEach(t=>t.style.backgroundImage=`url(${url})`)})}
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(paintCovers);
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(paintCovers,250)});
+
+/* ---------- project detail pages ---------- */
+const GH='https://github.com/janporcar';
+const P={
+ verity:{title:'Verity',stack:['Python','scikit-learn','Streamlit','React'],
+  en:{kind:'Machine Learning, La Salle, 2025/26',sub:'Multimodal deception detection',course:'Machine Learning',team:'With Francesc Mateu (Group 15)',role:'Feature pipeline, model comparison and front end',
+   overview:'Verity is an academic prototype that classifies answers as truthful or deceptive by combining what a person says with how their body reacts. We built it to explore how far a hybrid of text and physiological signals can go, and to make every single prediction explainable.',
+   problem:'Most lie-detection demos rely on one signal and return a verdict with no reasoning behind it. We wanted the opposite: several weak signals combined, and a system that always shows which cues pushed it to its answer.',
+   steps:['Extract language features with rule-based lexicons: hedges, denials, distancing, specificity and sentiment.','Generate synthetic physiological features: heart rate, heart-rate variability, blink rate and facial action units.','Train Random Forest, Logistic Regression and SVM on the combined features and compare them.','Recalibrate the output with a rule layer, so each verdict comes with the cues that drove it.','Serve everything in a React cockpit for live sessions, after a first prototype in Streamlit.'],
+   decisions:['Synthetic physiology instead of real sensor recordings, to keep the project ethical and reproducible.','A rule-based layer on top of the models: a little less raw accuracy in exchange for explanations a person can follow.','Two interfaces: Streamlit to iterate fast, React for a demo that feels like a real tool.'],
+   note:'Educational prototype built for a university course. It is not a real lie detector.'},
+  es:{kind:'Machine Learning, La Salle, 2025/26',sub:'Detección multimodal de engaño',course:'Machine Learning',team:'Con Francesc Mateu (Grupo 15)',role:'Pipeline de features, comparación de modelos y front end',
+   overview:'Verity es un prototipo académico que clasifica respuestas como verdaderas o engañosas combinando lo que dice una persona con cómo reacciona su cuerpo. Lo construimos para ver hasta dónde llega una combinación de texto y señales fisiológicas, y para que cada predicción se pueda explicar.',
+   problem:'La mayoría de demos de detección de mentiras usan una sola señal y dan un veredicto sin ningún razonamiento. Queríamos lo contrario: varias señales débiles combinadas y un sistema que siempre enseña qué pistas le llevaron a su respuesta.',
+   steps:['Extraer features del lenguaje con léxicos basados en reglas: evasivas, negaciones, distanciamiento, concreción y sentimiento.','Generar features fisiológicas sintéticas: pulso, variabilidad cardiaca, parpadeo y unidades de acción facial.','Entrenar Random Forest, Regresión Logística y SVM con las features combinadas y compararlos.','Recalibrar la salida con una capa de reglas, para que cada veredicto venga con las pistas que lo provocaron.','Servirlo todo en un cockpit en React para sesiones en directo, tras un primer prototipo en Streamlit.'],
+   decisions:['Fisiología sintética en lugar de grabaciones reales de sensores, para que el proyecto fuera ético y reproducible.','Una capa de reglas encima de los modelos: algo menos de precisión a cambio de explicaciones que una persona puede seguir.','Dos interfaces: Streamlit para iterar rápido y React para una demo que parezca una herramienta real.'],
+   note:'Prototipo educativo hecho para una asignatura. No es un detector de mentiras real.'}},
+ wearwise:{title:'WearWise',stack:['GPT-4o','Python','MongoDB Atlas','Streamlit','LaTeX'],
+  en:{kind:'Knowledge-Based Systems, La Salle, 2025/26',sub:'An outfit recommender that explains itself',course:'Knowledge-Based Systems',team:'Team of 4: Francesc Mateu, Pau Porta, Giovanni Luca Giraldo and me',role:'Inference engine, rules and system architecture',
+   overview:'WearWise is a knowledge-based system for a more sustainable wardrobe. It digitises the clothes you already own and suggests outfits for each situation, explaining why, instead of pushing you to buy something new.',
+   problem:'Fashion recommenders are usually built to sell. We wanted one that works only with what you already have, and whose suggestions can be audited rule by rule.',
+   steps:['You upload a photo and GPT-4o, with a zero-shot vision prompt, extracts the garment’s attributes.','A normalisation pipeline maps those attributes onto a fixed ontology.','Garments are stored as documents in MongoDB Atlas.','A forward-chaining engine in Python applies hard rules (weather, occasion, safety) to discard invalid outfits.','A heuristic score ranks what is left by occasion, formality and colour harmony.','The Streamlit app shows the outfit together with the rules that fired.'],
+   decisions:['The language model only handles perception. Reasoning stays in a deterministic engine, so the logic is predictable and explainable.','A fixed ontology stops the model from inventing categories.','Two-phase selection: filter first, score second.'],
+   note:'Written up as an IEEE-format paper and presented with a slide deck.'},
+  es:{kind:'Sistemas Basados en Conocimiento, La Salle, 2025/26',sub:'Un recomendador de outfits que se explica',course:'Sistemas Basados en Conocimiento',team:'Equipo de 4: Francesc Mateu, Pau Porta, Giovanni Luca Giraldo y yo',role:'Motor de inferencia, reglas y arquitectura del sistema',
+   overview:'WearWise es un sistema basado en conocimiento para un armario más sostenible. Digitaliza la ropa que ya tienes y te propone outfits para cada situación explicando por qué, en vez de empujarte a comprar algo nuevo.',
+   problem:'Los recomendadores de moda suelen estar hechos para vender. Queríamos uno que trabaje solo con lo que ya tienes y cuyas sugerencias se puedan revisar regla a regla.',
+   steps:['Subes una foto y GPT-4o, con un prompt de visión zero-shot, extrae los atributos de la prenda.','Un pipeline de normalización encaja esos atributos en una ontología fija.','Las prendas se guardan como documentos en MongoDB Atlas.','Un motor de encadenamiento hacia delante en Python aplica reglas estrictas (tiempo, ocasión, seguridad) y descarta outfits no válidos.','Una puntuación heurística ordena lo que queda por ocasión, formalidad y armonía de color.','La app de Streamlit muestra el outfit junto con las reglas que se activaron.'],
+   decisions:['El modelo de lenguaje solo se encarga de percibir. El razonamiento está en un motor determinista, así la lógica es predecible y explicable.','Una ontología fija evita que el modelo se invente categorías.','Selección en dos fases: primero filtrar, después puntuar.'],
+   note:'Documentado en un paper con formato IEEE y presentado con diapositivas.'}},
+ citadel:{title:'The Citadel System',stack:['C','TCP sockets','fork','pipes','md5sum'],
+  en:{kind:'Operating Systems, La Salle, 2025/26',sub:'A decentralised network of processes, in C',course:'Operating Systems',team:'With Francesc Mateu (Group 15)',role:'Network protocol, routing and process management',
+   overview:'A distributed system themed on Game of Thrones. Each Great House runs its own Maester process, and Maesters form alliances, trade goods and send each other files over a network with no central server.',
+   problem:'The course asked for the core of an operating system in one program: processes, inter-process communication, sockets and concurrency, with a network protocol designed from scratch.',
+   steps:['Each Maester reads its realm’s configuration and opens a TCP server.','Messages travel in fixed 320-byte frames defined by our own protocol.','When two realms have no direct link, frames hop through intermediate Maesters.','Alliance and trade missions are handed to child Envoy processes through pipes.','The parent keeps receiving and routing while several missions run at once.','File transfers are verified end to end with md5sum.'],
+   decisions:['Fixed-size frames make parsing and buffering simple and predictable.','One child process per mission, so a slow peer never blocks the whole node.','The code is split into config, state, network and command layers.'],
+   note:'We also drew our own architecture and protocol diagrams, since the project has no graphical interface.'},
+  es:{kind:'Sistemas Operativos, La Salle, 2025/26',sub:'Una red descentralizada de procesos, en C',course:'Sistemas Operativos',team:'Con Francesc Mateu (Grupo 15)',role:'Protocolo de red, enrutamiento y gestión de procesos',
+   overview:'Un sistema distribuido ambientado en Juego de Tronos. Cada Gran Casa ejecuta su propio proceso Maester, y los Maesters forman alianzas, comercian y se envían archivos por una red sin servidor central.',
+   problem:'La asignatura pedía el núcleo de un sistema operativo en un solo programa: procesos, comunicación entre procesos, sockets y concurrencia, con un protocolo de red diseñado desde cero.',
+   steps:['Cada Maester lee la configuración de su reino y abre un servidor TCP.','Los mensajes viajan en tramas fijas de 320 bytes definidas por nuestro propio protocolo.','Si dos reinos no tienen conexión directa, las tramas saltan por Maesters intermedios.','Las misiones de alianza y comercio se pasan a procesos hijo Envoy mediante pipes.','El padre sigue recibiendo y enrutando mientras varias misiones corren a la vez.','Las transferencias de archivos se verifican de punta a punta con md5sum.'],
+   decisions:['Tramas de tamaño fijo para que leer y almacenar mensajes sea simple y predecible.','Un proceso hijo por misión, así un nodo lento nunca bloquea al resto.','El código está dividido en capas de configuración, estado, red y comandos.'],
+   note:'También hicimos nuestros propios diagramas de arquitectura y protocolo, porque el proyecto no tiene interfaz gráfica.'}},
+ nudeeye:{title:'Nude Eye',stack:['Java','DAO pattern','REST API','JSON / CSV'],
+  en:{kind:'Object-Oriented Design, La Salle, 2025/26',sub:'Management software for an optical shop, in Java',course:'Object-Oriented Design and Programming',team:'With Francesc Mateu (Group 1)',role:'Class design, persistence layer and business logic',
+   overview:'A console application to run an optical shop: clients register and log in, browse a catalogue of glasses, contact lenses and services, fill a cart, check out, and see their full purchase history.',
+   problem:'The real goal was an object-oriented design that survives changing requirements. The spec grew over four phases, and each one tested whether the previous design could absorb it.',
+   steps:['At start-up the controller checks whether the remote REST API is reachable.','It injects either the local (JSON/CSV) or the remote set of DAOs into the managers.','Managers apply the business logic: pricing, VAT and shipping.','Client and product hierarchies resolve their behaviour through polymorphism.','Errors are split into business exceptions and persistence exceptions.'],
+   decisions:['VAT goes through a hook method, appliesVAT(), so new product types never touch existing code (open-closed principle).','A discriminator field lets JSON files rebuild the right client or product subclass.','A GeolocationApiManager computes shipping fees from real distances.'],
+   note:'The class diagram evolved from a simple first phase to a full inheritance model by phases 3 and 4.'},
+  es:{kind:'Diseño Orientado a Objetos, La Salle, 2025/26',sub:'Software de gestión para una óptica, en Java',course:'Diseño y Programación Orientada a Objetos',team:'Con Francesc Mateu (Grupo 1)',role:'Diseño de clases, capa de persistencia y lógica de negocio',
+   overview:'Una aplicación de consola para gestionar una óptica: los clientes se registran e inician sesión, consultan un catálogo de gafas, lentillas y servicios, llenan un carrito, pagan y ven todo su historial de compras.',
+   problem:'El objetivo real era un diseño orientado a objetos que aguantara requisitos cambiantes. El enunciado creció en cuatro fases y cada una ponía a prueba si el diseño anterior podía absorberla.',
+   steps:['Al arrancar, el controlador comprueba si la API REST remota responde.','Inyecta en los managers el conjunto de DAOs local (JSON/CSV) o el remoto.','Los managers aplican la lógica de negocio: precios, IVA y envíos.','Las jerarquías de clientes y productos resuelven su comportamiento por polimorfismo.','Los errores se separan en excepciones de negocio y de persistencia.'],
+   decisions:['El IVA pasa por un método gancho, appliesVAT(), así los nuevos tipos de producto no tocan el código existente (principio abierto-cerrado).','Un campo discriminador permite reconstruir desde JSON la subclase correcta de cliente o producto.','Un GeolocationApiManager calcula los gastos de envío con distancias reales.'],
+   note:'El diagrama de clases pasó de una primera fase sencilla a un modelo completo con herencia en las fases 3 y 4.'}},
+ mnist:{title:{en:'Neural net from scratch',es:'Red neuronal desde cero'},stack:['Python','NumPy','MNIST'],
+  en:{kind:'AI Applications in ECE, Manhattan University, Fall 2026',sub:'Handwritten digits with nothing but NumPy',course:'EECE 471, AI Applications in ECE',team:'Individual project',role:'Everything: model, training and live demo',
+   overview:'A neural network that recognises handwritten digits, written from scratch in NumPy, with a live demo where you draw a digit and the network guesses it in real time.',
+   problem:'Deep learning libraries hide the interesting part. Building every piece by hand is the best way to understand what they do, and testing on my own handwriting shows where a model trained on a benchmark breaks.',
+   steps:['Load MNIST and normalise the 28×28 images.','Implement the forward pass with plain matrix operations.','Write backpropagation and the weight updates by hand.','Train, track accuracy and keep a log of everything that didn’t work the first time.','Connect a drawing canvas that turns your strokes into a 28×28 input for live predictions.'],
+   decisions:['No frameworks at all, so every gradient is visible in the code.','A development log kept from day one, which becomes the backbone of the final report.','Testing with European-style handwriting, where the crossed 7 and the 1 with a serif expose MNIST’s bias.'],
+   timeline:[['Nov 9','Proposal'],['Nov 23','Status report'],['Dec 3','Presentation and live demo']],
+   note:'Work in progress. The live demo is presented on 3 December 2026.'},
+  es:{kind:'AI Applications in ECE, Manhattan University, otoño 2026',sub:'Dígitos escritos a mano solo con NumPy',course:'EECE 471, AI Applications in ECE',team:'Proyecto individual',role:'Todo: modelo, entrenamiento y demo en directo',
+   overview:'Una red neuronal que reconoce dígitos escritos a mano, programada desde cero con NumPy, con una demo en directo donde dibujas un número y la red lo adivina en tiempo real.',
+   problem:'Las librerías de deep learning esconden la parte interesante. Construir cada pieza a mano es la mejor forma de entender qué hacen, y probarla con mi propia letra muestra dónde se rompe un modelo entrenado con un benchmark.',
+   steps:['Cargar MNIST y normalizar las imágenes de 28×28.','Implementar el forward pass con operaciones de matrices.','Escribir a mano la backpropagation y la actualización de pesos.','Entrenar, medir la precisión y apuntar todo lo que no salió a la primera.','Conectar un lienzo de dibujo que convierte tus trazos en una entrada de 28×28 para predecir en directo.'],
+   decisions:['Ningún framework, para que cada gradiente se vea en el código.','Un diario de desarrollo desde el primer día, que se convierte en la base del informe final.','Pruebas con letra a la europea, donde el 7 cruzado y el 1 con trazo inicial dejan ver el sesgo de MNIST.'],
+   timeline:[['9 nov','Propuesta'],['23 nov','Informe de estado'],['3 dic','Presentación y demo en directo']],
+   note:'En curso. La demo en directo se presenta el 3 de diciembre de 2026.'}}
+};
+const ORDER=['verity','wearwise','citadel','nudeeye','mnist'];
+const REPO={verity:'verity',wearwise:'wearwise',citadel:'the-citadel-system',nudeeye:'nude-eye'};
+const UI={en:{back:'Back to projects',next:'Next project',course:'Course',team:'Team',role:'My part',stack:'Stack',links:'Links',code:'Code on GitHub',profile:'My GitHub',overview:'Overview',problem:'Why we built it',how:'How it works',decisions:'Key decisions',timeline:'Timeline'},
+          es:{back:'Volver a proyectos',next:'Siguiente proyecto',course:'Asignatura',team:'Equipo',role:'Mi parte',stack:'Tecnologías',links:'Enlaces',code:'Código en GitHub',profile:'Mi GitHub',overview:'Resumen',problem:'Por qué lo hicimos',how:'Cómo funciona',decisions:'Decisiones clave',timeline:'Calendario'}};
+const detail=document.getElementById('detail');
+let openId=null, returnY=0;
+const esc=t=>String(t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const tName=(p,l)=>typeof p.title==='string'?p.title:p.title[l];
+function renderDetail(id){
+  const p=P[id], d=p[lang], u=UI[lang], nid=ORDER[(ORDER.indexOf(id)+1)%ORDER.length];
+  const cover=drawCover(id,1680,720);
+  detail.innerHTML=`
+  <div class="d-bar"><div class="wrap"><button type="button" data-close>← ${u.back}</button><a href="#${nid}">${u.next}</a></div></div>
+  <div class="wrap">
+    <header class="d-head d-in"><span class="kind">${esc(d.kind)}</span><h1 id="d-title">${esc(tName(p,lang))}</h1><p class="sub">${esc(d.sub)}</p></header>
+    <div class="d-cover d-in"><img src="${cover}" alt=""></div>
+    <div class="d-body">
+      <dl class="d-facts d-in">
+        <div><dt>${u.course}</dt><dd>${esc(d.course)}</dd></div>
+        <div><dt>${u.team}</dt><dd>${esc(d.team)}</dd></div>
+        <div><dt>${u.stack}</dt><dd><ul class="tags">${p.stack.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></dd></div>
+        <div><dt>${u.links}</dt><dd><a href="${GH}${REPO[id]?'/'+REPO[id]:''}" target="_blank" rel="noopener">${REPO[id]?u.code:u.profile}</a></dd></div>
+      </dl>
+      <div>
+        <section class="d-sec d-in"><h2>${u.overview}</h2><p>${esc(d.overview)}</p></section>
+        <section class="d-sec d-in"><h2>${u.problem}</h2><p>${esc(d.problem)}</p></section>
+        <section class="d-sec d-in"><h2>${u.how}</h2><ol class="d-steps">${d.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></section>
+        <section class="d-sec d-in"><h2>${u.decisions}</h2><ul class="d-list">${d.decisions.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></section>
+        ${d.timeline?`<section class="d-sec d-in"><h2>${u.timeline}</h2><ol class="d-steps">${d.timeline.map(([a,b])=>`<li><span><b>${esc(a)}</b> &nbsp; ${esc(b)}</span></li>`).join('')}</ol></section>`:''}
+        <p class="d-note d-in">${esc(d.note)}</p>
+      </div>
+    </div>
+    <a class="d-next" href="#${nid}"><small>${u.next}</small><b>${esc(tName(P[nid],lang))}</b></a>
+  </div>`;
+  detail.querySelector('[data-close]').addEventListener('click',closeDetail);
+}
+function curtain(mid){
+  const cur=document.querySelector('.curtain');
+  if(!hasGsap||reduced){mid();return}
+  gsap.timeline().set(cur,{transformOrigin:'bottom'}).to(cur,{scaleY:1,duration:.55,ease:'power4.inOut'})
+    .add(mid).set(cur,{transformOrigin:'top'}).to(cur,{scaleY:0,duration:.65,ease:'power4.inOut',delay:.05});
+}
+function openDetail(id){
+  if(!P[id])return;
+  const first=openId===null;
+  curtain(()=>{
+    if(first)returnY=scrollY;
+    openId=id;renderDetail(id);detail.hidden=false;detail.scrollTop=0;
+    document.documentElement.style.overflow='hidden';
+    window.__lenis&&window.__lenis.stop();
+    if(hasGsap&&!reduced)gsap.from(detail.querySelectorAll('.d-in'),{y:40,opacity:0,duration:1,ease:'power3.out',stagger:.08,delay:.35});
+    detail.querySelector('[data-close]').focus({preventScroll:true});
+  });
+}
+function closeDetail(){
+  if(openId===null)return;
+  curtain(()=>{
+    detail.hidden=true;detail.innerHTML='';openId=null;
+    document.documentElement.style.overflow='';
+    try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+    window.__lenis&&window.__lenis.start();
+    window.__lenis?window.__lenis.scrollTo(returnY,{immediate:true}):scrollTo(0,returnY);
+  });
+}
+function route(){const id=location.hash.slice(1);if(P[id])openDetail(id);else if(openId!==null&&!document.getElementById(id))closeDetail()}
+addEventListener('hashchange',route);
+addEventListener('keydown',e=>{if(e.key==='Escape'&&openId)closeDetail()});
+/* keep detail in sync with the language toggle */
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>{if(openId)setTimeout(()=>renderDetail(openId),hasGsap&&!reduced?560:0)}));
+
+/* ---------- menu: active section + mobile ---------- */
+const menuLinks=[...document.querySelectorAll('.menu a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)menuLinks.forEach(a=>a.classList.toggle('active',a.dataset.sec===e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+['work','projects','education','contact'].forEach(id=>{const el=document.getElementById(id);el&&io.observe(el)});
+const burger=document.getElementById('burger'), mm=document.getElementById('mmenu');
+function setMenu(open){burger.setAttribute('aria-expanded',open);mm.hidden=!open;document.documentElement.style.overflow=open?'hidden':'';
+  if(open&&hasGsap&&!reduced)gsap.from(mm.querySelectorAll('a'),{yPercent:100,opacity:0,duration:.7,ease:'expo.out',stagger:.06})}
+burger.addEventListener('click',()=>setMenu(mm.hidden));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+setTimeout(route,0);
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const id=a.getAttribute('href').slice(1);if(P[id]&&location.hash==='#'+id){e.preventDefault();openDetail(id)}});
+
+/* ---------- motion ---------- */
+if(!hasGsap){document.querySelector('.loader')?.remove();glow.classList.add('on');return}
+gsap.registerPlugin(ScrollTrigger);
+
+let lenis=null;
+if(!reduced&&typeof Lenis!=='undefined'){
+  lenis=new Lenis({lerp:.075,smoothWheel:true});window.__lenis=lenis;
+  lenis.on('scroll',ScrollTrigger.update);
+  gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');const t=id==='#top'?0:document.querySelector(id);if(t!==null){e.preventDefault();lenis.scrollTo(t,{offset:id==='#top'?0:-70,duration:1.4})}}));
+}
+
+const chars=gsap.utils.toArray('.name .ch');
+function intro(){
+  const tl=gsap.timeline();
+  tl.from(chars,{yPercent:110,rotate:6,filter:'blur(8px)',duration:1.1,ease:'expo.out',stagger:.045})
+    .from('.status',{y:16,opacity:0,duration:.7,ease:'power3.out'},'-=.8')
+    .from('.lede',{y:24,opacity:0,duration:.8,ease:'power3.out'},'-=.6')
+    .from('.cta .btn',{y:20,opacity:0,duration:.7,ease:'power3.out',stagger:.08},'-=.6')
+    .from('#portrait',{clipPath:'inset(100% 0 0 0)',y:40,duration:1.4,ease:'expo.out'},0.15)
+    .from('#net',{opacity:0,duration:1.4},'-=1.2')
+    .add(()=>glow.classList.add('on'),'-=.6');
+}
+if(reduced){document.querySelector('.loader')?.remove();glow.classList.add('on')}
+else{
+  const L=document.querySelector('.loader');const paths=L.querySelectorAll('path');
+  paths.forEach(p=>{const len=p.getTotalLength();p.style.strokeDasharray=len;p.style.strokeDashoffset=len});
+  gsap.timeline({onComplete:()=>{L.remove()}})
+    .to(paths,{strokeDashoffset:0,duration:.9,ease:'power2.inOut',stagger:.18})
+    .from(L.querySelector('circle'),{scale:0,transformOrigin:'center',duration:.35,ease:'back.out(3)'},'-=.15')
+    .to(L,{yPercent:-100,duration:.8,ease:'expo.inOut'},'+=.2')
+    .add(intro,'-=.45');
+  setTimeout(()=>{if(document.body.contains(L)){L.remove();glow.classList.add('on')}},4500);
+}
+
+if(!reduced){
+  /* ink reveal on titles */
+  gsap.utils.toArray('.ink').forEach(h=>{
+    gsap.fromTo(h,{'--p':-10},{'--p':130,ease:'none',scrollTrigger:{trigger:h,start:'top 88%',end:'top 45%',scrub:.6}});
+  });
+  /* simple reveals */
+  gsap.utils.toArray('.reveal').forEach(el=>gsap.from(el,{y:40,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 85%'}}));
+  /* count-up */
+  document.querySelectorAll('.facts b').forEach(b=>{const end=parseFloat(b.textContent);const dec=b.textContent.includes('.')?1:0;const o={v:0};
+    gsap.to(o,{v:end,duration:1.4,ease:'power2.out',scrollTrigger:{trigger:b,start:'top 90%'},onUpdate:()=>b.textContent=o.v.toFixed(dec)})});
+
+  const mm=gsap.matchMedia();
+  mm.add('(min-width: 861px)',()=>{
+    /* horizontal experience */
+    const track=document.querySelector('.xp-track');
+    const dist=()=>track.scrollWidth-innerWidth;
+    gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:'.xp-pin',start:'top 12%',end:()=>'+='+dist(),pin:true,scrub:.8,invalidateOnRefresh:true,anticipatePin:1}});
+  });
+
+  /* stacked cards: earlier card sinks back as the next one arrives */
+  const cards=gsap.utils.toArray('.card');
+  cards.forEach((card,i)=>{
+    const next=cards[i+1];
+    if(next) gsap.to(card.querySelector('.card-in'),{scale:.94,'--dim':.55,y:-18,ease:'power1.inOut',transformOrigin:'50% 0',
+      scrollTrigger:{trigger:next,start:'top 85%',end:'top 96px',scrub:1.6}});
+    /* cover unfolds from 12 tiles */
+    const c=covers[i];
+    gsap.from(c.tiles,{rotateY:-55,opacity:0,scale:.96,transformOrigin:'0% 50%',duration:1.6,ease:'expo.out',
+      stagger:{each:.07,grid:[3,4],from:'start'},scrollTrigger:{trigger:card,start:'top 80%'}});
+  });
+
+  /* magnetic buttons */
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    const qx=gsap.quickTo(btn,'x',{duration:.5,ease:'power3'}),qy=gsap.quickTo(btn,'y',{duration:.5,ease:'power3'});
+    const inner=btn.querySelector('span');const ix=gsap.quickTo(inner,'x',{duration:.5,ease:'power3'}),iy=gsap.quickTo(inner,'y',{duration:.5,ease:'power3'});
+    btn.addEventListener('pointermove',e=>{const r=btn.getBoundingClientRect();const dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);qx(dx*.3);qy(dy*.4);ix(dx*.12);iy(dy*.15)});
+    btn.addEventListener('pointerleave',()=>{qx(0);qy(0);ix(0);iy(0)});
+  });
+}
+addEventListener('load',()=>ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
